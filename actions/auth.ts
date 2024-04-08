@@ -44,6 +44,7 @@ export const authOptions: AuthOptions = {
   adapter: FirestoreAdapter(firestore) as any,
   callbacks: {
     session: async ({ session, user, token }) => {
+      console.log(token);
       if (token && token.jti) {
         const firebaseToken = await firebaseAdmin
           .auth()
