@@ -1,6 +1,6 @@
 import { withAuth } from 'next-auth/middleware';
 
-export { default as middleware } from 'next-auth/middleware';
+import { default as middleware } from 'next-auth/middleware';
 
 export default withAuth({
   pages: {
@@ -8,6 +8,8 @@ export default withAuth({
   },
 });
 
-export const config = {
+const config = {
   matcher: ['/employee'],
 };
+
+export { middleware, config };
