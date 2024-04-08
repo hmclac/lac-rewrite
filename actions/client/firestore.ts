@@ -17,17 +17,20 @@ import { db } from '@/actions/client/firebase';
 import { time } from '@/actions/utils';
 
 export const fetchEquipment = async () => {
-  const q = query(
-    collection(db, 'equipment'),
-    where('time_checked_in', '==', null),
-    orderBy('time_checked_out', 'desc')
-  );
-  const querySnapshot = await getDocs(q);
-  const equipment = querySnapshot.docs.map((doc) => doc.data());
-  return equipment;
+  try {
+    const q = query(
+      collection(db, 'equipment'),
+      where('time_checked_in', '==', null),
+      orderBy('time_checked_out', 'desc')
+    );
+    const querySnapshot = await getDocs(q);
+    const equipment = querySnapshot.docs.map((doc) => doc.data());
+    return equipment;
+  } catch (e) {
+    throw new Error('Error fetching equipment: ' + e);
+  }
 };
 
-// checkout equipment
 type EquipmentCheckOut = {
   equipmentType: string;
   studentName: string;
@@ -35,7 +38,6 @@ type EquipmentCheckOut = {
   studentEmail: string;
   staffName: string;
 };
-// now we can use this type to check out the given equipment to firestore
 export const handleEquipmentCheckOut = async ({
   equipmentType,
   studentName,
@@ -73,7 +75,6 @@ export const handleEquipmentCheckOut = async ({
   }
 };
 
-// return equipment
 type EquipmentReturn = {
   equipmentType: string;
   student_id: string;

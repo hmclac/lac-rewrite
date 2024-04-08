@@ -48,7 +48,7 @@ export const authOptions: AuthOptions = {
         const firebaseToken = await firebaseAdmin
           .auth()
           .createCustomToken(token.jti as string);
-
+        console.log(session);
         session.firebaseToken = firebaseToken;
       }
       return session;

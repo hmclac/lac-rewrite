@@ -1,7 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { collection, getDocs } from '@firebase/firestore';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -13,22 +12,19 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Equipment } from '@/components/Employee/Equipment';
 import { Bikes } from '@/components/Employee/Bikes';
 import { Headcount } from '@/components/Employee/Headcount';
 
 import { handleSwipe } from '@/actions/client/firestore';
-import { useRouter } from 'next/navigation';
 
 const Employee = () => {
   const session = useSession();
-  const router = useRouter();
   const [swipe, setSwipe] = useState('');
 
   if (!session || !session.data) {
-    return router.push('/login');
+    return <>Error</>;
   }
   const { user } = session.data;
 
