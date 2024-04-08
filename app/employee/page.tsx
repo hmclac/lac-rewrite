@@ -20,14 +20,15 @@ import { Bikes } from '@/components/Employee/Bikes';
 import { Headcount } from '@/components/Employee/Headcount';
 
 import { handleSwipe } from '@/actions/client/firestore';
-
+import { useRouter } from 'next/navigation';
 
 const Employee = () => {
   const session = useSession();
+  const router = useRouter();
   const [swipe, setSwipe] = useState('');
 
   if (!session || !session.data) {
-    return <>Error</>;
+    return router.push('/login');
   }
   const { user } = session.data;
 
@@ -44,7 +45,6 @@ const Employee = () => {
       toast.error('Error submitting swipe');
     }
   };
-
 
   return (
     <section className='flex flex-col items-center p-4 mx-1 rounded-2xl border-stone-700'>
