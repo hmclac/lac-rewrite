@@ -19,7 +19,6 @@ const Home = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(data.value);
   return (
     <main className='flex flex-col items-center justify-between py-6'>
       <section className='flex flex-col items-center w-11/12'>

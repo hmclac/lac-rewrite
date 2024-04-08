@@ -16,7 +16,6 @@ type Props = {
 
 export const Table = ({ columns, rows }: Props) => {
   if (columns.length !== rows[0].length) {
-    console.error(columns.length, rows[0].length);
     throw new Error('Columns and rows do not match');
   }
   return (
