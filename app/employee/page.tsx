@@ -18,6 +18,7 @@ import { Bikes } from '@/components/Employee/Bikes';
 import { Headcount } from '@/components/Employee/Headcount';
 
 import { handleSwipe } from '@/actions/client/firestore';
+import { useFirebaseAuth } from '@/actions/client/firebase';
 
 const Employee = () => {
   const session = useSession();
@@ -26,6 +27,8 @@ const Employee = () => {
   if (!session || !session.data) {
     return <>Error</>;
   }
+  useFirebaseAuth();
+
   const { user } = session.data;
 
   const submitSwipe = async () => {
