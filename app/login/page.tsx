@@ -1,6 +1,6 @@
 'use client';
-import { useState, useContext } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 
 import { useForm } from 'react-hook-form';
@@ -31,10 +31,13 @@ type LoginFormInputs = z.infer<typeof formSchema>;
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const session = useSession();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(
+    searchParams.get('error') || ''
+  );
   const [successMessage, setSuccessMessage] = useState('');
-  if (session && session.data) router.push('/employee');
+  // if (session && session.data) router.push('/employee');
 
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(formSchema),
@@ -45,6 +48,10 @@ const Login = () => {
   });
 
   const onSubmit = async (data: LoginFormInputs) => {
+    if (session && session.data) {
+      setSuccessMessage('Already signed in!');
+      router.push('/employee');
+    }
     try {
       const user = await signIn('credentials', {
         username: data.username,
@@ -59,15 +66,6 @@ const Login = () => {
       setSuccessMessage('Successfully signed in!');
       setErrorMessage('');
 
-      // export interface DefaultSession {
-      //   user?: {
-      //     name?: string | null
-      //     email?: string | null
-      //     image?: string | null
-      //   }
-      //   expires: ISODateString
-      // }
-
       router.push('/employee');
     } catch (error) {
       console.log(error);
@@ -81,6 +79,7 @@ const Login = () => {
     <div className='flex justify-center items-center'>
       <div className='w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg'>
         {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+
         {successMessage && (
           <div style={{ color: 'green' }}>{successMessage}</div>
         )}

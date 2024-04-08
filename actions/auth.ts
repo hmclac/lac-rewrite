@@ -21,6 +21,7 @@ type CredentialType = {
 export const authOptions: AuthOptions = {
   pages: {
     signIn: '/login',
+    error: '/error',
   },
   providers: [
     CredentialsProvider({
@@ -33,10 +34,9 @@ export const authOptions: AuthOptions = {
             (credentials as CredentialType).username || '',
             (credentials as CredentialType).password || ''
           );
-          return user.user || null;
-        } catch (e) {
-          console.error(e);
-          return null;
+          return user.user;
+        } catch (e: any) {
+          throw new Error(e.message);
         }
       },
     }),
@@ -52,6 +52,10 @@ export const authOptions: AuthOptions = {
         session.firebaseToken = firebaseToken;
       }
       return session;
+    },
+    signIn: async ({ user, account, profile }) => {
+      if (user) return true;
+      return `/login?error=rip`;
     },
   },
   session: {
