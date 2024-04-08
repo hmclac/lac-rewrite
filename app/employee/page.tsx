@@ -23,11 +23,11 @@ import { useFirebaseAuth } from '@/actions/client/firebase';
 const Employee = () => {
   const session = useSession();
   const [swipe, setSwipe] = useState('');
+  useFirebaseAuth();
 
   if (!session || !session.data) {
     return <>Error</>;
   }
-  useFirebaseAuth();
 
   const { user } = session.data;
 
