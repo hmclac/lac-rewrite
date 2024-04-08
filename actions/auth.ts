@@ -46,11 +46,15 @@ export const authOptions: AuthOptions = {
     session: async ({ session, user, token }) => {
       console.log(token);
       if (token && token.jti) {
-        const firebaseToken = await firebaseAdmin
-          .auth()
-          .createCustomToken(token.jti as string);
-        console.log(session);
-        session.firebaseToken = firebaseToken;
+        try {
+          const firebaseToken = await firebaseAdmin
+            .auth()
+            .createCustomToken(token.jti as string);
+          console.log(session);
+          session.firebaseToken = firebaseToken;
+        } catch (e) {
+          console.error('Error creating custom token:', e);
+        }
       }
       return session;
     },
