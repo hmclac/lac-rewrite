@@ -1,15 +1,13 @@
 import { withAuth } from 'next-auth/middleware';
 
-import { default as middleware } from 'next-auth/middleware';
+import mid from 'next-auth/middleware';
 
-export default withAuth({
+export const middleware = withAuth({
   pages: {
     signIn: '/login',
   },
 });
 
-const config = {
+export const config = {
   matcher: ['/employee'],
 };
-
-export { middleware, config };
