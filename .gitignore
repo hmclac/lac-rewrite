@@ -45,3 +45,4 @@ harveymuddlac-firebase*
 *.rules
 .firebase
 .vscode
+.venv
